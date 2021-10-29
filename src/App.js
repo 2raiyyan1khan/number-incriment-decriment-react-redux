@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React from "react";
+import { connect } from "react-redux";
+import { incrimentCounter, decrimentCounter } from "./redux/ActionCreators";
+const App = (props) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "90vh",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "300px",
+        }}
+      >
+        <button
+          style={{
+            padding: "10px 30px",
+            fontSize: "2rem",
+            cursor: "pointer",
+          }}
+          onClick={() => props.decriment()}
         >
-          Learn React
-        </a>
-      </header>
+          -
+        </button>
+        <h1>{props.counter}</h1>
+        <button
+          style={{
+            padding: "10px 30px",
+            fontSize: "2rem",
+            cursor: "pointer",
+          }}
+          onClick={() => props.incriment()}
+        >
+          +
+        </button>
+      </div>
     </div>
   );
-}
-
-export default App;
+};
+const mapStateToprops = (state) => {
+  return {
+    counter: state.counter,
+  };
+};
+const mapDispatchToProps = (dispatch) => ({
+  incriment: () => dispatch(incrimentCounter()),
+  decriment: () => dispatch(decrimentCounter()),
+});
+export default connect(mapStateToprops, mapDispatchToProps)(App);
